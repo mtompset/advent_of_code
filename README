@@ -1,0 +1,19 @@
+To run:
+- change into the year and day directory.
+- then type:
+    cat input.txt | ./day#X.pl
+
+Minimalist output
+
+Attempts have been made to ensure that
+    perlcritic -1 day#X.pl
+should only complain about the print.
+
+The last part of the current history is not necessarily finished.
+
+You may need to install various perl libraries.
+They typically map from Foo::Bar::Baz to libfoo-bar-baz-perl, so
+    sudo apt install libfoo-bar-baz-perl
+should install the missing library.
+
+Minimalist README, because programmers don't write documentation!
