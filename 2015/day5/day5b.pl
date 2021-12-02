@@ -27,9 +27,10 @@ sub is_naughty {
 
     my $rule1_result = has_non_overlapping_pairs($word);
     my $rule2_result = has_repeating_letter_with_one_gap($word);
-    if ($rule1_result + $rule2_result > 1) {
+    if ( $rule1_result + $rule2_result > 1 ) {
         return 0;
-    } else {
+    }
+    else {
         return 1;
     }
 }
@@ -40,8 +41,8 @@ sub has_repeating_letter_with_one_gap {
     my @characters = split //xlsm, $word;
     for my $position ( 2 .. scalar @characters - 1 ) {
         my $initial_character = $characters[ $position - 2 ];
-        my $third_character = $characters[$position];
-        if ($initial_character eq $third_character) {
+        my $third_character   = $characters[$position];
+        if ( $initial_character eq $third_character ) {
             return 1;
         }
     }
@@ -52,13 +53,14 @@ sub has_non_overlapping_pairs {
     my ($word) = @_;
 
     my $before_length = length $word;
-    my @characters = split //xlsm, $word;
+    my @characters    = split //xlsm, $word;
     for my $position ( 1 .. scalar @characters - 1 ) {
-        my $pair = sprintf '%s%s', $characters[ $position - 1 ], $characters[$position];
+        my $pair = sprintf '%s%s', $characters[ $position - 1 ],
+          $characters[$position];
         my $altered_word = $word;
         $altered_word =~ s/${pair}//gxslm;
         my $after_length = length $altered_word;
-        if ($before_length - $after_length > $SIZE_OF_PAIR) {
+        if ( $before_length - $after_length > $SIZE_OF_PAIR ) {
             return 1;
         }
     }
