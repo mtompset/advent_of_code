@@ -34,7 +34,7 @@ sub count_initial_zeros {
     my ($md5_hash_value) = @_;
 
     my $zero_count = 0;
-    if ($md5_hash_value =~ /(^0+)/xls) {
+    if ($md5_hash_value =~ /(^0+)/mxls) {
         my $initial_zeros = $1;
         $zero_count = length $initial_zeros;
     }
