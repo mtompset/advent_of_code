@@ -3,6 +3,7 @@
 use Modern::Perl;
 use Data::Dumper;
 use Math::Combinatorics;
+use Carp qw(croak);
 
 our $VERSION = '1.0';
 
@@ -18,7 +19,7 @@ foreach my $measurement (@measurements) {
         $distances{$source}{$destination} = $distance;
         $distances{$destination}{$source} = $distance;
     } else {
-        die "KABOOM!";
+        croak "KABOOM!";
     }
 }
 
@@ -36,9 +37,9 @@ my @longest_path;
 my $maximum_path = 0;
 while (my @path = $combinations->next_permutation) {
     my $path_length = 0;
-    for (my $position = 0; $position < $#path; ++$position) {
-        my $source = $path[$position];
-        my $destination = $path[$position + 1];
+    foreach my $position (1..$#path) {
+        my $source = $path[$position - 1];
+        my $destination = $path[$position];
         $path_length += $distances{$source}{$destination};
     }
     if ($maximum_path == 0) {
