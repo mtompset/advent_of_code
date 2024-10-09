@@ -3,16 +3,19 @@
 use Modern::Perl;
 use Data::Dumper;
 use Math::Combinatorics;
+use Const::Fast;
+use English qw(-no_match_vars);
 
 our $VERSION = '1.0';
-$| = 1;
+const my $ITERATIONS => 50;
+local $OUTPUT_AUTOFLUSH = 1;
 
 my $sequence = <>;
 chomp $sequence;
 print "Starting with $sequence\n";
 
 print "01: $sequence\n";
-for my $count (1..50) {
+for my $count (1..$ITERATIONS) {
     my $updated_sequence = calculate_next_sequence($sequence);
     print sprintf("%02d: %s\n", $count + 1, $updated_sequence);
     $sequence = $updated_sequence;
