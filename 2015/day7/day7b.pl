@@ -5,6 +5,7 @@ use Text::Trim;
 use integer;
 use Data::Dumper;
 use Const::Fast;
+use feature qw/switch/;
 
 our $VERSION = '1.0';
 
@@ -25,8 +26,8 @@ foreach my $instruction (@instructions) {
 }
 $wires->{'b'} = 3176;
 
-my @selected_wires = sort keys %{$wires};
-#my @selected_wires = qw/a/;
+#my @selected_wires = sort keys %{$wires};
+my @selected_wires = qw/a/;
 foreach my $selected_wire (@selected_wires) {
     print sprintf "%s: %d\n", $selected_wire, calculate_wire($wires, $selected_wire);
 }
@@ -58,18 +59,27 @@ sub calculate_wire {
             $match3 = $3;
             $value1 = calculate_wire($current_wires, $match1);
             $value2 = calculate_wire($current_wires, $match3);
-            if ($operand eq 'RSHIFT') {
-                $current_wires->{$which_wire} = ($value1 >> $value2) & $BIT_LIMIT_HEX;
-                print "$which_wire (RSHIFT): ", $current_wires->{$which_wire}, "\n";
-            } elsif ($operand eq 'LSHIFT') {
-                $current_wires->{$which_wire} = ($value1 << $value2) & $BIT_LIMIT_HEX;
-                print "$which_wire (LSHIFT): ", $current_wires->{$which_wire}, "\n";
-            } elsif ($operand eq 'AND') {
-                $current_wires->{$which_wire} = $value1 & $value2;
-                print "$which_wire (AND): $value1 & $value2\n";
-            } elsif ($operand eq 'OR') {
-                $current_wires->{$which_wire} = $value1 | $value2;
-                print "$which_wire (OR): $value1 | $value2\n";
+            given ($operand)
+            {
+                when ('RSHIFT') {
+                    $current_wires->{$which_wire} = ($value1 >> $value2) & $BIT_LIMIT_HEX;
+                    print "$which_wire (RSHIFT): ", $current_wires->{$which_wire}, "\n";
+                }
+                when ('LSHIFT') {
+                    $current_wires->{$which_wire} = ($value1 << $value2) & $BIT_LIMIT_HEX;
+                    print "$which_wire (LSHIFT): ", $current_wires->{$which_wire}, "\n";
+                }
+                when ('AND') {
+                    $current_wires->{$which_wire} = $value1 & $value2;
+                    print "$which_wire (AND): $value1 & $value2\n";
+                }
+                when ('OR') {
+                    $current_wires->{$which_wire} = $value1 | $value2;
+                    print "$which_wire (OR): $value1 | $value2\n";
+                }
+                default {
+                    print "NO OPERATOR\n";
+                }
             }
         } else {
             $value1 = calculate_wire($wires, $input_value);
