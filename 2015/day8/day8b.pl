@@ -13,8 +13,8 @@ my @strings = <>;
 foreach my $string (@strings) {
     chomp $string;
     my $encoded_string = $string;
-    $encoded_string =~ s/\\/\\\\/g;
-    $encoded_string =~ s/"/\\"/g;
+    $encoded_string =~ s/\\/\\\\/gxlsm;
+    $encoded_string =~ s/"/\\"/gxlsm;
     $encoded_string = sprintf '"%s"', $encoded_string;
     print "$string:$encoded_string\n";
     $coded_length += length $string;
